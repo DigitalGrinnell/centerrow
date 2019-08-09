@@ -9,12 +9,18 @@ $this->headScript()->appendFile($this->assetUrl('js/lg-video.min.js'));
 $this->headScript()->appendFile($this->assetUrl('js/lg-zoom.js'));
 
 $lightMedia = [];
+$htmlMedia = [];
+$audioMedia = [];
 $otherMedia = [];
 foreach ($item->media() as $media) {
     $mediaType = $media->mediaType();
     $mediaRenderer = $media->renderer();
     if ((strpos($mediaType, 'image/') !== false) || (strpos($mediaRenderer, 'youtube') !== false)) {
         $lightMedia[] = $media;
+    } else if (strpos($mediaRenderer, 'html') !== false) {
+        $htmlMedia[] = $media;
+    } else if (strpos($mediaType, 'audio/') !== false) {
+        $audioMedia[] = $media;
     } else {
         $otherMedia[] = $media;
     }
@@ -32,6 +38,26 @@ foreach ($item->media() as $media) {
         </li>
     <?php endforeach; ?>
 </ul>
+<?php endif; ?>
+
+<?php if (count($audioMedia) > 0): ?>
+    <div class="media-embeds">
+    <?php foreach ($audioMedia as $media):
+        echo $media->displayDescription();
+        echo $media->render();
+    endforeach;
+    ?>
+    </div>
+<?php endif; ?>
+
+<?php if (count($htmlMedia) > 0): ?>
+    <div class="html-embeds">
+    <?php foreach ($htmlMedia as $media):
+        echo $media->displayTitle();
+        echo $media->render();
+    endforeach;
+    ?>
+    </div>
 <?php endif; ?>
 
 <?php echo $item->displayValues(); ?>
