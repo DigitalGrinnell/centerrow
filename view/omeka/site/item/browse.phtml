@@ -76,7 +76,8 @@ $sortHeadings = [
     <li class="item resource">
         <?php if ($thumbnail = $this->thumbnail($item, 'medium')): ?>
           <div class="browse-thumbnail">
-            <?php echo $item->linkRaw($thumbnail, null, ['class' => 'thumbnail']); ?>
+              <span class="helper"></span>
+              <?php echo $item->linkRaw($thumbnail, null, ['class' => 'thumbnail']); ?>
           </div>
         <?php endif; ?>
         <div class="resource-meta">
