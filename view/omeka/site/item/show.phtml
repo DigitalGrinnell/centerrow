@@ -8,9 +8,9 @@ $this->headScript()->appendFile($this->assetUrl('js/lightgallery.min.js'));
 $this->headScript()->appendFile($this->assetUrl('js/lg-video.min.js'));
 $this->headScript()->appendFile($this->assetUrl('js/lg-zoom.js'));
 
-function displayLinkToSolr($item, $field) {
-    if($item->value('dcterms:' . $field[0])) {
-        echo "<p>" . $field[1] . ": <a href=\"/s/MusicalInstruments/musical-instruments-search?q=*&limit%5Bdcterms_" . $field[0] . "_s%5D%%B0%5D=" . $item->value('dcterms:' . $field[0]) . "\">" . $item->value('dcterms:' . $field[0]) . "</a></p>";
+function displayLinkToSolr($item, $field, $vocab) {
+    if($item->value($vocab . ':' . $field[0])) {
+        echo "<p>" . $field[1] . ": <a href=\"/s/MusicalInstruments/musical-instruments-search?q=*&limit%5B" . $vocab . "_" . $field[0] . "_s%5D%%B0%5D=" . $item->value($vocab . ':' . $field[0]) . "\">" . $item->value($vocab . ':' . $field[0]) . "</a></p>";
     }
 }
 
@@ -75,8 +75,22 @@ foreach ($item->media() as $media) {
     ['type', 'Formation']
   );
   foreach ($origins as $origin) {
-      echo displayLinkToSolr($item, $origin);
+      echo displayLinkToSolr($item, $origin, 'dcterms');
   }
+
+?>
+
+<h4>Design and Playin Features</h4>
+
+<?php
+
+    $features = array(
+        ['resonatorDesignChordophone', 'Resonator Design (Chordophone)']
+    );
+
+    foreach ($features as $feature) {
+        echo displayLinkToSolr($item, $feature, 'wmi');
+    }
 
 ?>
 
