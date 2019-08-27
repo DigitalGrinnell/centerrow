@@ -8,6 +8,12 @@ $this->headScript()->appendFile($this->assetUrl('js/lightgallery.min.js'));
 $this->headScript()->appendFile($this->assetUrl('js/lg-video.min.js'));
 $this->headScript()->appendFile($this->assetUrl('js/lg-zoom.js'));
 
+function displayLinkToSolr($item, $field) {
+    if($item->value('dcterms:' . $field[0])) {
+        echo "<p>" . $field[1] . ": <a href=\"/s/MusicalInstruments/musical-instruments-search?q=*&limit%5Bdcterms_" . $field[0] . "_s%5D%%B0%5D=" . $item->value('dcterms:' . $field[0]) . "\">" . $item->value('dcterms:' . $field[0]) . "</a></p>";
+    }
+}
+
 $lightMedia = [];
 $htmlMedia = [];
 $audioMedia = [];
@@ -59,7 +65,20 @@ foreach ($item->media() as $media) {
     </div>
 <?php endif; ?>
 
-<?php echo $item->displayValues(); ?>
+<h3>Instrument Information</h3>
+<h4>Origins</h4>
+
+<?php $origins = array(
+    ['spatial', 'Continent'],
+    ['source', 'Region'],
+    ['coverage', 'Nation'],
+    ['type', 'Formation']
+  );
+  foreach ($origins as $origin) {
+      echo displayLinkToSolr($item, $origin);
+  }
+
+?>
 
 <?php if (count($otherMedia) > 0): ?>
 <div id="other-media" class="property">
