@@ -125,6 +125,13 @@ foreach ($item->media() as $media) {
 
 ?>
 
+<?php if ($item->value('dcterms:format')): ?>
+
+    echo "<h4>Dimensions</h4>";
+    echo "<p>" . $item->value('dcterms:format') . "</p>";
+
+<?php endif; ?>
+
 <?php if (count($otherMedia) > 0): ?>
 <div id="other-media" class="property">
     <h4><?php echo $this->translate('Other Media'); ?></h4>
