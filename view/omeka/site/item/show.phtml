@@ -132,6 +132,15 @@ foreach ($item->media() as $media) {
 
 <?php endif; ?>
 
+<?php if ($item->value('dcterms:medium')): ?>
+
+    echo "<h4>Primary Materials</h4>";
+    foreach ($item->value('dcterms:medium') as $medium) {
+        echo displayLinkToSolr($item, $medium, 'dcterms');
+    }
+
+<?php endif; ?>
+
 <?php if (count($otherMedia) > 0): ?>
 <div id="other-media" class="property">
     <h4><?php echo $this->translate('Other Media'); ?></h4>
