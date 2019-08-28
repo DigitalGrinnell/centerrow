@@ -127,17 +127,17 @@ foreach ($item->media() as $media) {
 
 <?php if ($item->value('dcterms:format')): ?>
 
-    echo "<h4>Dimensions</h4>";
-    echo "<p>" . $item->value('dcterms:format') . "</p>";
+    <h4>Dimensions</h4>
+    <?php echo "<p>" . $item->value('dcterms:format') . "</p>";?>
 
 <?php endif; ?>
 
 <?php if ($item->value('dcterms:medium')): ?>
 
-    echo "<h4>Primary Materials</h4>";
-    foreach ($item->value('dcterms:medium') as $medium) {
+    <h4>Primary Materials</h4>
+    <?php foreach ($item->value('dcterms:medium') as $medium) {
         echo displayLinkToSolr($item, $medium, 'dcterms');
-    }
+    } ?>
 
 <?php endif; ?>
 
