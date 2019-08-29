@@ -14,6 +14,11 @@ function displayLinkToSolr($item, $field, $vocab) {
     }
 }
 
+function displayLinkToSolrMulti($field, $vocab, $value) {
+        echo "<a href=\"/s/MusicalInstruments/musical-instruments-search?q=*&limit%5B" . $vocab . "_" . $field . "_ss%5D%%B0%5D=" . $value . "\">" . $value . "</a>";
+    }
+}
+
 $lightMedia = [];
 $htmlMedia = [];
 $audioMedia = [];
@@ -125,14 +130,15 @@ foreach ($item->media() as $media) {
 
     if ($item->value('dcterms:format')) {
         echo "<h4>Dimensions</h4>";
-        echo "<p style=\"pre-wrap\">" . $item->value('dcterms:format') . "</p>";
+        echo "<p style=\"white-space:pre-wrap;\">" . $item->value('dcterms:format') . "</p>";
     }
 
     if ($item->value('dcterms:medium')) {
-        echo "<h4>Primary Materials</h4>";
-        foreach ($item->value('dcterms:medium') as $medium) {
-            echo displayLinkToSolr($item, $medium, 'dcterms');
+        echo "<h4>Primary Materials</h4><p>";
+        foreach ($item->value('dcterms:medium',['all' => true]) as $medium) {
+            echo displayLinkToSolrMulti('medium', 'dcterms', $medium) . "<br/>";
         }
+        echo "</p>";
     }
 ?>
 
