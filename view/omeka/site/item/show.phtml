@@ -15,8 +15,7 @@ function displayLinkToSolr($item, $field, $vocab) {
 }
 
 function displayLinkToSolrMulti($field, $vocab, $value) {
-        echo "<a href=\"/s/MusicalInstruments/musical-instruments-search?q=*&limit%5B" . $vocab . "_" . $field . "_ss%5D%%B0%5D=" . $value . "\">" . $value . "</a>";
-    }
+    echo "<a href=\"/s/MusicalInstruments/musical-instruments-search?q=*&limit%5B" . $vocab . "_" . $field . "_ss%5D%%B0%5D=" . $value . "\">" . $value . "</a>";
 }
 
 $lightMedia = [];
