@@ -10,12 +10,12 @@ $this->headScript()->appendFile($this->assetUrl('js/lg-zoom.js'));
 
 function displayLinkToSolr($item, $field, $vocab) {
     if($item->value($vocab . ':' . $field[0])) {
-        echo "<p>" . $field[1] . ": <a href=\"/s/MusicalInstruments/musical-instruments-search?q=*&limit%5B" . $vocab . "_" . $field[0] . "_s%5D%%B0%5D=" . $item->value($vocab . ':' . $field[0]) . "\">" . $item->value($vocab . ':' . $field[0]) . "</a></p>";
+        echo "<p>" . $field[1] . ": <a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit%5B" . $vocab . "_" . $field[0] . "_s%5D%%B0%5D=" . $item->value($vocab . ':' . $field[0]) . "\">" . $item->value($vocab . ':' . $field[0]) . "</a></p>";
     }
 }
 
 function displayLinkToSolrMulti($field, $vocab, $value) {
-    echo "<a href=\"/s/MusicalInstruments/musical-instruments-search?q=*&limit%5B" . $vocab . "_" . $field . "_ss%5D%%B0%5D=" . $value . "\">" . $value . "</a>";
+    echo "<a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit%5B" . $vocab . "_" . $field . "_ss%5D%%B0%5D=" . $value . "\">" . $value . "</a>";
 }
 
 $lightMedia = [];
