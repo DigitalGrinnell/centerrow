@@ -44,8 +44,7 @@ foreach ($item->media() as $media) {
         <?php $source = ($media->originalUrl()) ? $media->originalUrl() : $media->source(); ?>
         <li data-src="<?php echo $source; ?>" data-thumb="<?php echo $escape($media->thumbnailUrl('medium')); ?>" class="media resource">
             <?php echo $media->render(); ?>
-            <p><?php echo $media->displayTitle; ?></p>
-            <p><?php echo $media->displayDescription; ?></p>
+            <p><?php echo $media->value('dcterms:alternative'); ?></p>
         </li>
     <?php endforeach; ?>
 </ul>
