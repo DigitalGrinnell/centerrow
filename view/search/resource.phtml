@@ -32,11 +32,12 @@
     <?php if (method_exists($resource, 'primaryMedia') && $primaryMedia = $resource->primaryMedia()): ?>
         <div class="browse-thumbnail">
         <span class="helper"></span>
-        <img
+        <a href="<?php echo $resource->url();?>">
+            <img
             src="<?php echo $escape($primaryMedia->thumbnailUrl('medium')); ?>"
             title="<?php echo $escape($primaryMedia->displayTitle()); ?>"
             alt="<?php echo $escape($primaryMedia->displayTitle()) . " " . $escape($primaryMedia->mediaType()); ?> thumbnail"
-        /></div>
+                 /></a></div>
     <?php endif; ?>
     <h4><?php echo $resource->link($resource->displayTitle()); ?></h4>
 
