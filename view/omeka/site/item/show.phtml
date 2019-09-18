@@ -85,6 +85,12 @@ foreach ($item->media() as $media) {
 
 ?>
 
+<h4>Classification (Sachs-Von Hornbostel revised by <a href="http://www.mimo-international.com/vocabulary.html">MIMO</a>)</h4>
+<?php if ($item->value('dcterms:subject')) {
+    echo displayLinkToSolr($item, 'subject', 'dcterms');  
+}?>
+    
+
 <h4>Design and Playing Features</h4>
 
 <?php
