@@ -87,7 +87,7 @@ foreach ($item->media() as $media) {
 
 <h4>Classification (Sachs-Von Hornbostel revised by <a href="http://www.mimo-international.com/vocabulary.html">MIMO</a>)</h4>
 <?php if ($item->value('dcterms:subject')) {
-    echo displayLinkToSolr($item, 'subject', 'dcterms');  
+    echo "<a href="\"/s/MusicalInstruments/musical-instrument-search?q=dcterms_subject_s:" . $item->value('dcterms:subject') . "\">" . $item->value('dcterms:subject') . "</a>";
 }?>
     
 
