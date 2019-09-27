@@ -34,27 +34,33 @@ $sortHeadings = [
 
 <?php if (isset($itemSet)): ?>
     <?php echo $this->pageTitle($itemSet->displayTitle(), 2); ?>
-    <h3><?php echo $translate('Item Set'); ?></h3>
+<!--    <h3><?php echo $translate('Item Set'); ?></h3>-->
     <div class="metadata">
-        <?php echo $itemSet->displayValues(); ?>
+<!--        <?php echo $itemSet->displayValues(); ?>-->
+	<?php echo $itemSet->value('dcterms:description');?>
     </div>
-    <?php echo $this->pageTitle($translate('Items'), 3); ?>
+<!--    <?php echo $this->pageTitle($translate('Items'), 3); ?>-->
 <?php else: ?>
-    <?php echo $this->pageTitle($translate('Items'), 2); ?>
+<!--    <?php echo $this->pageTitle($translate('Items'), 2); ?>-->
 <?php endif; ?>
 
 <?php echo $this->searchFilters(); ?>
 
-<?php 
-    $layoutSetting = $this->themeSetting('browse_layout');
+<?php
+if (substr($itemSet->url(),-4) == '5138') {
+	$layoutSetting = 'list';
+} else {
+	$layoutSetting = 'grid';
+}
+//    $layoutSetting = $this->themeSetting('browse_layout');
     $gridState = ($layoutSetting == 'togglegrid') ? 'disabled' : '';
     $listState = ($layoutSetting == 'togglelist') ? 'disabled': '';
     $currentLayout = (!isset($layoutSetting) || strpos($layoutSetting, 'grid') !== false) ? 'grid' : 'list';
 ?>
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
-    <?php echo $this->hyperlink($translate('Advanced search'), $this->url('site/resource', ['controller' => 'item', 'action' => 'search'], ['query' => $query], true), ['class' => 'advanced-search']); ?>
-    <?php echo $this->sortSelector($sortHeadings); ?>
+<!--    <?php echo $this->hyperlink($translate('Advanced search'), $this->url('site/resource', ['controller' => 'item', 'action' => 'search'], ['query' => $query], true), ['class' => 'advanced-search']); ?>-->
+<!--    <?php echo $this->sortSelector($sortHeadings); ?>-->
     <?php if (strpos($layoutSetting, 'toggle') !== false): ?>
     <div class="layout-toggle">
         <button type="button" aria-label="<?php echo $translate('Grid'); ?>" class="grid o-icon-grid" <?php echo $gridState; ?>></button>
@@ -65,13 +71,19 @@ $sortHeadings = [
 <ul class="resource-list <?php echo $currentLayout; ?>">
     <?php
     $headingTerm = $this->siteSetting('browse_heading_property_term');
-    $bodyTerm = $this->siteSetting('browse_body_property_term');
+//    $bodyTerm = $this->siteSetting('browse_body_property_term');
+    $bodyTerm = 'dcterms:description';
     ?>
     
     <?php foreach ($items as $item): ?>
     <?php
     $heading = $headingTerm ? $item->value($headingTerm, ['default' => $translate('[Untitled]')]) : $item->displayTitle();
-    $body = $bodyTerm ? $item->value($bodyTerm) : $item->value('dcterms:date');
+
+    if (substr($itemSet->url(),-4) == '5138') {
+	    $body = $bodyTerm ? $item->value($bodyTerm) : $item->value('dcterms:date');
+    } else {
+	    $body = '';
+    }
     ?>
     <li class="item resource">
         <?php if ($thumbnail = $this->thumbnail($item, 'medium')): ?>
@@ -80,8 +92,13 @@ $sortHeadings = [
               <?php echo $item->linkRaw($thumbnail, null, ['class' => 'thumbnail']); ?>
           </div>
         <?php endif; ?>
-        <div class="resource-meta">
-            <h4><?php echo $item->linkRaw($heading); ?></h4>
+	<div class="resource-meta">
+	<?php if (substr($itemSet->url(),-4) == '5138') {
+	   echo "<h4><a href=\"/s/MusicalInstruments/musical-instrument-search?q=dcterms_subject_s:" . $heading . "\">" . $heading . "</a></h4>";
+	    echo "<p>" . $body . "</p><hr />";
+	} else {
+		echo "<h4>" . $item->linkRaw($heading) . "</h4>";
+	}?>
         </div>
     </li>
     <?php endforeach; ?>

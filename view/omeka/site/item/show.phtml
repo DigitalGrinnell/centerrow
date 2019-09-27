@@ -10,12 +10,12 @@ $this->headScript()->appendFile($this->assetUrl('js/lg-zoom.js'));
 
 function displayLinkToSolr($item, $field, $vocab) {
     if($item->value($vocab . ':' . $field[0])) {
-        echo "<p>" . $field[1] . ": <a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit%5B" . $vocab . "_" . $field[0] . "_s%5D%%B0%5D=" . $item->value($vocab . ':' . $field[0]) . "\">" . $item->value($vocab . ':' . $field[0]) . "</a></p>";
+        echo "<p>" . $field[1] . ": <a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit[" . $vocab . "_" . $field[0] . "_s][0]=" . $item->value($vocab . ':' . $field[0]) . "\">" . $item->value($vocab . ':' . $field[0]) . "</a></p>";
     }
 }
 
 function displayLinkToSolrMulti($field, $vocab, $value) {
-    echo "<a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit%5B" . $vocab . "_" . $field . "_ss%5D%%B0%5D=" . $value . "\">" . $value . "</a>";
+        echo "<a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit[" . $vocab . "_" . $field . "_ss][0]=" . $value . "\">" . $value . "</a>";
 }
 
 $lightMedia = [];
@@ -29,7 +29,7 @@ foreach ($item->media() as $media) {
         $lightMedia[] = $media;
     } else if (strpos($mediaRenderer, 'html') !== false) {
         $htmlMedia[] = $media;
-    } else if (strpos($mediaType, 'audio/') !== false) {
+    } else if (strpos($mediaType, 'audio/') !== false OR strpos($mediaType, 'video/') !== false) {
         $audioMedia[] = $media;
     } else {
         $otherMedia[] = $media;
@@ -38,6 +38,13 @@ foreach ($item->media() as $media) {
 ?>
 
 <?php echo $this->pageTitle($item->displayTitle(), 2); ?>
+<?php if ($item->value('dcterms:alternative')) {
+    echo "<p><strong><i>Also</i>: &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+    foreach ($item->value('dcterms:alternative',['all' => true]) as $alttitle) {
+	    echo $alttitle . "&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;";
+    }
+    echo "</p></strong>";
+}?>
 <?php if (count($lightMedia) > 0): ?>
 <ul id="itemfiles" class="media-list">
     <?php foreach ($lightMedia as $media): ?>
@@ -55,6 +62,7 @@ foreach ($item->media() as $media) {
     <?php foreach ($audioMedia as $media):
         echo $media->render();
         echo $media->displayDescription();
+        echo "<br /><br />";
     endforeach;
     ?>
     </div>
@@ -87,7 +95,7 @@ foreach ($item->media() as $media) {
 
 <h4>Classification (Sachs-Von Hornbostel revised by <a href="http://www.mimo-international.com/vocabulary.html">MIMO</a>)</h4>
 <?php if ($item->value('dcterms:subject')) {
-    echo "<a href=\"/s/MusicalInstruments/musical-instrument-search?q=dcterms_subject_s:" . $item->value('dcterms:subject') . "\">" . $item->value('dcterms:subject') . "</a>";
+    echo "<a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit[dcterms_subject_s][0]=" . $item->value('dcterms:subject') . "\">" . $item->value('dcterms:subject') . "</a>";
 }?>
     
 
@@ -146,6 +154,16 @@ foreach ($item->media() as $media) {
         }
         echo "</p>";
     }
+    if ($item->value('dcterms:publisher')) {
+	    echo "<h4>Maker</h4><p>" . $item->value('dcterms:publisher') . "</p>";
+    }
+    if ($item->value('dcterms:extent')) {
+	    echo "<h4>Model</h4><p>" . $item->value('dcterms:extent') . "</p>";
+    }
+    if ($item->value('dcterms:contributor')) {
+	    echo "<h4>Entry Author</h4><p>" . $item->value('dcterms:contributor') . "</p>";
+    }
+
 ?>
 
 <?php if (count($otherMedia) > 0): ?>
