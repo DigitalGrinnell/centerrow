@@ -11,7 +11,7 @@
         if ($media && $this->thumbnailType == 'square') {
 	    echo '<div class="browse-thumbnail">
 		    <span class="helper"></span>';
-	    echo $item->linkRaw($this->thumbnail($item, 'medium'));
+	    echo $item->linkRaw($this->thumbnail($media, 'medium'));
 	    echo '</div>';
 	}
         else if ($media):
