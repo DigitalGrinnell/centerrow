@@ -14,6 +14,9 @@
 	    echo $item->linkRaw($this->thumbnail($media, 'medium'));
 	    echo '</div>';
 	}
+	else if ($media && $media->extension() == 'pdf') {
+		echo $media->link($item->displayTitle() . ' (PDF)');
+	}
         else if ($media):
             echo $media->render([
                 'thumbnailType' => $thumbnailType,
