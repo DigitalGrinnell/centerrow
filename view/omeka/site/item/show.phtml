@@ -50,7 +50,7 @@ foreach ($item->media() as $media) {
     <?php foreach ($lightMedia as $media): ?>
         <?php $source = ($media->originalUrl()) ? $media->originalUrl() : $media->source(); ?>
         <li data-src="<?php echo $source; ?>" data-thumb="<?php echo $escape($media->thumbnailUrl('medium')); ?>" data-sub-html="<p><?php echo $media->value('dcterms:alternative'); ?></p>" class="media resource">
-	<?php if ($media->value('dcterms:title') || $media->value('dcterms:alternative') ?>
+	<?php if ($media->value('dcterms:title') || $media->value('dcterms:alternative')) ?>
             <div class="caption"><?php echo $media->value('dcterms:title') . ": " . $media->value('dcterms:alternative');?></div>
         <?php endif; ?>
             <?php echo $media->render(); ?>
