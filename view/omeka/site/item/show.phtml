@@ -96,11 +96,11 @@ foreach ($item->media() as $media) {
 
 <?php if ($item->value('dcterms:subject')) {
     echo "<h4>Classification (Sachs-Von Hornbostel revised by <a href=\"http://www.mimo-international.com/vocabulary.html\">MIMO</a>)</h4>";
-    echo "<a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit[dcterms_subject_s][0]=" . $item->value('dcterms:subject') . "\">" . $item->value('dcterms:subject') . "</a>";
+    echo "<a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit[dcterms_subject_s][0]=" . $item->value('dcterms:subject') . "\">" . $item->value('dcterms:subject') . "</a> ";
 }?>
     
 <?php
-if ($item->value('resourceClass') == "MusicalInstrument") {
+if ($item->resourceClass() == "MusicalInstrument") {
 echo "<h4>Design and Playing Features</h4>";
     $features = array(
         ['instrumentCategory', 'Category'],
