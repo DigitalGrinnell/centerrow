@@ -95,7 +95,7 @@ foreach ($item->media() as $media) {
 ?>
 
 <?php if ($item->value('dcterms:subject')) {
-    <h4>Classification (Sachs-Von Hornbostel revised by <a href="http://www.mimo-international.com/vocabulary.html">MIMO</a>)</h4>
+    echo "<h4>Classification (Sachs-Von Hornbostel revised by <a href=\"http://www.mimo-international.com/vocabulary.html\">MIMO</a>)</h4>";
     echo "<a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit[dcterms_subject_s][0]=" . $item->value('dcterms:subject') . "\">" . $item->value('dcterms:subject') . "</a>";
 }?>
     
