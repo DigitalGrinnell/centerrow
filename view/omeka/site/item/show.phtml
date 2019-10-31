@@ -100,7 +100,7 @@ foreach ($item->media() as $media) {
 }?>
     
 <?php
-if ($item->resourceClass() == "MusicalInstrument") {
+if ($item->displayResourceClassLabel() == "Musical Instrument") {
 echo "<h4>Design and Playing Features</h4>";
     $features = array(
         ['instrumentCategory', 'Category'],
