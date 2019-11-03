@@ -1,4 +1,3 @@
-<div class="item-showcase">
 <?php foreach ($attachments as $attachment): ?>
     <?php
     $item = $attachment->item();
@@ -7,12 +6,14 @@
         <?php
         $media = $attachment->media() ?: $item->primaryMedia();
         if ($media && $this->thumbnailType == 'square'){
+	  echo '<div class="items resource">';
           echo '<div class="browse-thumbnail">
 		      <span class="helper"></span>';
 	        echo $item->linkRaw($this->thumbnail($media, 'medium'));
 	        echo '</div>';
       }
         else if ($media):
+            echo '<div class="item-showcase">';
             echo $item->linkRaw($this->thumbnail($media, $this->thumbnailType));
         endif;
         ?>
