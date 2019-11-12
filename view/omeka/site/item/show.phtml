@@ -95,12 +95,15 @@ foreach ($item->media() as $media) {
 ?>
 
 <?php if ($item->value('dcterms:subject')) {
-    //$connection = $serviceLocator->get('Omeka\Connection');
-    //$sql = 'select select `value` from `value` inner join `resource` on `value`.`resource_id` = `resource`.`id` where `value`.`property_id` = 4 and `resource`.`title` ="' . $item->value('dcterms:subject') . '"';
-    //$connection->exec($sql);
-    echo "<h4>Classification (Sachs-Von Hornbostel revised by <a href=\"http://www.mimo-international.com/vocabulary.html\">MIMO</a>)</h4>";
+$mimo = file_get_contents('https://omeka-s.grinnell.edu/api/items?property[0][joiner]=and&property[0][property]=1&property[0][type]=eq&property[0][text]=' . $item->value('dcterms:subject') . '&item_set_id[]=5138');
+$mimo = json_decode($mimo);
+echo "<h4>Classification (Sachs-Von Hornbostel revised by <a href=\"http://www.mimo-international.com/vocabulary.html\">MIMO</a>)</h4>";
     echo "<a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit[dcterms_subject_s][0]=" . $item->value('dcterms:subject') . "\">" . $item->value('dcterms:subject') . "</a> ";
-    //var_dump($connection); 
+	foreach ($mimo[0] AS $definition) {
+		if ($definition && is_array($definition) && is_object($definition[0]) && $definition[0]->{'property_label'} == 'Description'){
+			   echo $definition[0]->{'@value'};
+		}
+	}
 }?>
     
 <?php
