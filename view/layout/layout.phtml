@@ -48,14 +48,20 @@ $userBar = $this->userBar();
                 ]);
                 ?>
                 </nav>
-                
-    <form method="GET" action="&#x2F;s&#x2F;MusicalInstruments&#x2F;musical-instrument-search"><div class="field">
+    <div class="second-nav">            
+        <ul class="navigation">
+            <li><a href="https://www.grinnell.edu">Grinnell College</a></li>
+            <li><a href="https://www.grinnell.edu/academics/majors-concentrations/music">Music at Grinnell</a></li>
+    <form method="GET" action="&#x2F;s&#x2F;MusicalInstruments&#x2F;musical-instrument-search">
+        <li><div class="field">
     <div class="field-meta">
         <label for="q">Search</label>            </div>
     <div class="inputs">
         <input type="text" name="q" placeholder="Search&#x20;items" value="">    </div>
-    </div>
+    </div></li>
+        </ul>
     </form>
+    </div>
             </header>
 
             <div id="content" role="main">
@@ -63,6 +69,21 @@ $userBar = $this->userBar();
             </div>
 
             <footer>
+                <div class="second-nav">            
+        <ul class="navigation">
+            <li><a href="https://www.grinnell.edu">Grinnell College</a></li>
+            <li><a href="https://www.grinnell.edu/academics/majors-concentrations/music">Music at Grinnell</a></li>
+    <form method="GET" action="&#x2F;s&#x2F;MusicalInstruments&#x2F;musical-instrument-search">
+        <li><div class="field">
+    <div class="field-meta">
+        <label for="q">Search</label>            </div>
+    <div class="inputs">
+        <input type="text" name="q" placeholder="Search&#x20;items" value="">    </div>
+    </div></li>
+        </ul>
+    </form>
+    </div>
+                
                 <?php if ($footerContent = $this->themeSetting('footer')): ?>
                 <?php echo $footerContent; ?>
                 <?php else: ?>
