@@ -47,11 +47,7 @@ $sortHeadings = [
 <?php echo $this->searchFilters(); ?>
 
 <?php
-if (substr($itemSet->url(),-4) == '5138') {
-	$layoutSetting = 'list';
-} else {
 	$layoutSetting = 'grid';
-}
 //    $layoutSetting = $this->themeSetting('browse_layout');
     $gridState = ($layoutSetting == 'togglegrid') ? 'disabled' : '';
     $listState = ($layoutSetting == 'togglelist') ? 'disabled': '';
@@ -79,11 +75,7 @@ if (substr($itemSet->url(),-4) == '5138') {
     <?php
     $heading = $headingTerm ? $item->value($headingTerm, ['default' => $translate('[Untitled]')]) : $item->displayTitle();
 
-    if (substr($itemSet->url(),-4) == '5138') {
-	    $body = $bodyTerm ? $item->value($bodyTerm) : $item->value('dcterms:date');
-    } else {
 	    $body = '';
-    }
     ?>
     <li class="item resource">
         <?php if ($thumbnail = $this->thumbnail($item, 'medium')): ?>
@@ -93,12 +85,9 @@ if (substr($itemSet->url(),-4) == '5138') {
           </div>
         <?php endif; ?>
 	<div class="resource-meta">
-	<?php if (substr($itemSet->url(),-4) == '5138') {
-	   echo "<h4><a href=\"/s/MusicalInstruments/musical-instrument-search?q=dcterms_subject_s:" . $heading . "\">" . $heading . "</a></h4>";
-	    echo "<p>" . $body . "</p>";
-	} else {
+	<?php
 		echo "<h4>" . $item->linkRaw($heading) . "</h4>";
-	}?>
+	?>
         </div>
     </li>
     <?php endforeach; ?>
