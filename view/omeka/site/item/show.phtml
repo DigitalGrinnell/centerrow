@@ -8,16 +8,6 @@ $this->headScript()->appendFile($this->assetUrl('js/lightgallery.min.js'));
 $this->headScript()->appendFile($this->assetUrl('js/lg-video.min.js'));
 $this->headScript()->appendFile($this->assetUrl('js/lg-zoom.js'));
 
-function displayLinkToSolr($item, $field, $vocab) {
-    if($item->value($vocab . ':' . $field[0])) {
-        echo "<p>" . $field[1] . ": <a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit[" . $vocab . "_" . $field[0] . "_s][0]=" . $item->value($vocab . ':' . $field[0]) . "\">" . $item->value($vocab . ':' . $field[0]) . "</a></p>";
-    }
-}
-
-function displayLinkToSolrMulti($field, $vocab, $value) {
-        echo "<a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit[" . $vocab . "_" . $field . "_ss][0]=" . $value . "\">" . $value . "</a>";
-}
-
 $lightMedia = [];
 $htmlMedia = [];
 $audioMedia = [];
@@ -80,98 +70,9 @@ foreach ($item->media() as $media) {
     </div>
 <?php endif; ?>
 
-<?php if ($item->value('dcterms:spatial') || $item->value('dcterms:source') || $item->value('dcterms:coverage') || $item->value('dcterms:type')) {
-  $origins = array(
-    ['spatial', 'Continent'],
-    ['source', 'Region'],
-    ['coverage', 'Nation'],
-    ['type', 'Formation']
-  );
-  echo "<h3>Instrument Information</h3><h4>Origins</h4>";
-  foreach ($origins as $origin) {
-      echo displayLinkToSolr($item, $origin, 'dcterms');
-  }
-}
-?>
-
-<?php if ($item->value('dcterms:subject')) {
-$mimo = file_get_contents('https://omeka-s.grinnell.edu/api/items?property[0][joiner]=and&property[0][property]=1&property[0][type]=eq&property[0][text]=' . $item->value('dcterms:subject') . '&item_set_id[]=5138');
-$mimo = json_decode($mimo);
-echo "<h4>Classification (Sachs-Von Hornbostel revised by <a href=\"http://www.mimo-international.com/vocabulary.html\">MIMO</a>)</h4>";
-    echo "<a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit[dcterms_subject_s][0]=" . $item->value('dcterms:subject') . "\">" . $item->value('dcterms:subject') . "</a> ";
-	foreach ($mimo[0] AS $definition) {
-		if ($definition && is_array($definition) && is_object($definition[0]) && $definition[0]->{'property_label'} == 'Description'){
-			   echo $definition[0]->{'@value'};
-		}
-	}
-}?>
-    
-<?php
-if ($item->displayResourceClassLabel() == "Musical Instrument") {
-echo "<h4>Design and Playing Features</h4>";
-    $features = array(
-        ['instrumentCategory', 'Category'],
-        ['stringCarrierDesign', 'String carrier design'],
-        ['resonatorDesignChordophone', 'Resonator design, chordophone'],
-        ['stringCourses', 'String courses'],
-        ['energyInputMotion', 'Energy input motion by performer'],
-        ['vibrationalLength', 'Vibrational length'],
-        ['stringTensionControl', 'String tension control'],
-        ['methodOfSounding', 'Method of sounding'],
-        ['pitchesPerStringCourse', 'Pitches per string course'],
-        ['numberOfDrums', 'Number of drums comprising instrument'],
-        ['shellDesign', 'Shell design'],
-        ['numberAndFunctionofMembranes', 'Number and function of membranes'],
-        ['membraneDesign', 'Membrane design'],
-        ['membraneAttachment', 'Membrane attachment'],
-        ['membraneTensionControl', 'Membrane tension control'],
-        ['sounding', 'Sounding for membranophone'],
-        ['soundModifiers', 'Sound modifiers for membranophone'],
-        ['basicFormOfSonorousObjects', 'Basic form of sonorous object/s for idiophone'],
-        ['soundObjectsPerInstrument', 'Sound objects per instrument'],
-        ['resonatorDesign', 'Resonator design'],
-        ['numberOfPlayers', 'Number of players'],
-        ['soundingPrinciple', 'Sounding principle'],
-        ['soundExcitingAgent', 'Sound exciting agent'],
-        ['energyInputMotion', 'Energy input motion by performer'],
-        ['pitchOfSound', 'Pitch of sound produced'],
-        ['soundModification', 'Sound modification'],
-        ['airCavityDesign', 'Air cavity design'],
-        ['sourceAndDirectionOfAirstream', 'Source and direction of airstream'],
-        ['energyTransducer', 'Energy transducer that activates sound'],
-        ['meansOfModifyingStandingWave', 'Means of modifying shape and dimensions of standing wave in air cavity'],
-        ['overblowingUtilization', 'Overblowing utilization'],
-        ['pitchProduction', 'Pitch production']
-    );
-
-    foreach ($features as $feature) {
-        echo displayLinkToSolr($item, $feature, 'wmi');
-    }
-}
-
-    if ($item->value('dcterms:format')) {
-        echo "<h4>Dimensions</h4>";
-        echo "<p style=\"white-space:pre-wrap;\">" . $item->value('dcterms:format') . "</p>";
-    }
-
-    if ($item->value('dcterms:medium')) {
-        echo "<h4>Primary Materials</h4><p>";
-        foreach ($item->value('dcterms:medium',['all' => true]) as $medium) {
-            echo displayLinkToSolrMulti('medium', 'dcterms', $medium) . "<br/>";
-        }
-        echo "</p>";
-    }
-    if ($item->value('dcterms:publisher')) {
-	    echo "<h4>Maker</h4><p>" . $item->value('dcterms:publisher') . "</p>";
-    }
-    if ($item->value('dcterms:extent')) {
-	    echo "<h4>Model</h4><p>" . $item->value('dcterms:extent') . "</p>";
-    }
-    if ($item->value('dcterms:contributor')) {
-	    echo "<h4>Entry Author</h4><p>" . $item->value('dcterms:contributor') . "</p>";
-    }
-
-?>
+<div class="properties">
+<?php $this->trigger('view.show.before'); ?>
+<?php echo $item->displayValues(); ?>
 
 <?php if (count($otherMedia) > 0): ?>
 <div id="other-media" class="property">
