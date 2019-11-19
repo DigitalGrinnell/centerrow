@@ -50,7 +50,9 @@ foreach ($item->media() as $media) {
     <?php foreach ($lightMedia as $media): ?>
         <?php $source = ($media->originalUrl()) ? $media->originalUrl() : $media->source(); ?>
         <li data-src="<?php echo $source; ?>" data-thumb="<?php echo $escape($media->thumbnailUrl('medium')); ?>" data-sub-html="<p><?php echo $media->value('dcterms:alternative'); ?></p>" class="media resource">
+	<?php if ($media->value('dcterms:title') || $media->value('dcterms:alternative')): ?>
             <div class="caption"><?php echo $media->value('dcterms:title') . ": " . $media->value('dcterms:alternative');?></div>
+        <?php endif; ?>
             <?php echo $media->render(); ?>
         </li>
     <?php endforeach; ?>
@@ -78,31 +80,35 @@ foreach ($item->media() as $media) {
     </div>
 <?php endif; ?>
 
-<h3>Instrument Information</h3>
-<h4>Origins</h4>
-
-<?php $origins = array(
+<?php if ($item->value('dcterms:spatial') || $item->value('dcterms:source') || $item->value('dcterms:coverage') || $item->value('dcterms:type')) {
+  $origins = array(
     ['spatial', 'Continent'],
     ['source', 'Region'],
     ['coverage', 'Nation'],
     ['type', 'Formation']
   );
+  echo "<h3>Instrument Information</h3><h4>Origins</h4>";
   foreach ($origins as $origin) {
       echo displayLinkToSolr($item, $origin, 'dcterms');
   }
-
+}
 ?>
 
-<h4>Classification (Sachs-Von Hornbostel revised by <a href="http://www.mimo-international.com/vocabulary.html">MIMO</a>)</h4>
 <?php if ($item->value('dcterms:subject')) {
-    echo "<a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit[dcterms_subject_s][0]=" . $item->value('dcterms:subject') . "\">" . $item->value('dcterms:subject') . "</a>";
+$mimo = file_get_contents('https://omeka-s.grinnell.edu/api/items?property[0][joiner]=and&property[0][property]=1&property[0][type]=eq&property[0][text]=' . $item->value('dcterms:subject') . '&item_set_id[]=5138');
+$mimo = json_decode($mimo);
+echo "<h4>Classification (Sachs-Von Hornbostel revised by <a href=\"http://www.mimo-international.com/vocabulary.html\">MIMO</a>)</h4>";
+    echo "<a href=\"/s/MusicalInstruments/musical-instrument-search?q=*&limit[dcterms_subject_s][0]=" . $item->value('dcterms:subject') . "\">" . $item->value('dcterms:subject') . "</a> ";
+	foreach ($mimo[0] AS $definition) {
+		if ($definition && is_array($definition) && is_object($definition[0]) && $definition[0]->{'property_label'} == 'Description'){
+			   echo $definition[0]->{'@value'};
+		}
+	}
 }?>
     
-
-<h4>Design and Playing Features</h4>
-
 <?php
-
+if ($item->displayResourceClassLabel() == "Musical Instrument") {
+echo "<h4>Design and Playing Features</h4>";
     $features = array(
         ['instrumentCategory', 'Category'],
         ['stringCarrierDesign', 'String carrier design'],
@@ -141,6 +147,7 @@ foreach ($item->media() as $media) {
     foreach ($features as $feature) {
         echo displayLinkToSolr($item, $feature, 'wmi');
     }
+}
 
     if ($item->value('dcterms:format')) {
         echo "<h4>Dimensions</h4>";
