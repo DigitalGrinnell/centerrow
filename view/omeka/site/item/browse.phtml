@@ -95,9 +95,11 @@ if (substr($itemSet->url(),-4) == '5138') {
 	<div class="resource-meta">
 	<?php if (substr($itemSet->url(),-4) == '5138') {
 	   echo "<h4><a href=\"/s/MusicalInstruments/musical-instrument-search?q=dcterms_subject_s:" . $heading . "\">" . $heading . "</a></h4>";
-	    echo "<p>" . $body . "</p>";
+	    echo "<p>" . $escape($body) . "</p>";
 	} else {
-		echo "<h4>" . $item->linkRaw($heading) . "</h4>";
+		echo "<h4>" . $item->linkRaw($heading) . "</h4>
+		<div class="date">" . $escape($body) . "</div>";
+	
 	}?>
         </div>
     </li>

@@ -292,6 +292,23 @@ nav ul {
     color: #676767;
 }
 
+#skipnav {
+  position: fixed;
+  top: $spacing-l;
+  left: 50%;
+  border: 1px solid $gray;
+  transform: translateX(-50%);
+  z-index: -5;
+  padding: $spacing-s;
+  background-color: #fff;
+  opacity: 0;
+  
+  &:focus {
+    z-index: 1000;
+    opacity: 1;
+  }
+}
+
 /* @end */
 
 /* @group ----- Header ----- */
@@ -1038,127 +1055,89 @@ footer {
     margin-left: auto;
 }
 
-.page.browse .resource-list {
-    border-top: 1px solid $gray;
-    
-    li {
-      border-bottom: 1px solid $gray;
-      padding-bottom: $spacing-l;
-    }
-}
-
-.file,
-.item-showcase .resource {
-    width: min-content;
-}
-
-.item-showcase .resource,
-.file .resource {
-    display: flex;
-    flex-direction: column;
-    flex-basis: content;
-    width: min-content;
-    max-width: 100%;
-    margin: 0 $spacing-l $spacing-l;
-
-    img {
-        max-width: 100%;
-    }
-
-    & > a:first-child,
-    & .media-render > a:first-child {
-        width: max-content;
-        max-width: 100%;
-    }
-}
-
-.item-showcase .resource h3,
-.file .resource h3 {
-    font-size: $base-font-size;
-    margin: (.5 * $base-line-height) 0 0;
-}
-
-.page .media-render {
-    display: flex;
-    flex-basis: min-content;
-}
-
-.page .media-render a {
-    display: block;
-}
-
-.page .media-render img {
-    vertical-align: top;
-}
-
-.left.file {
-    float: left;
-    margin: 0 $spacing-l $spacing-l 0;
-}
-
-.right.file {
-    float: right;
-    margin: 0 0 $spacing-l $spacing-l;
-}
-
-.item-showcase {
-    display: flex;
-    flex-wrap: wrap;
-    width: 100%;
-    clear: both;
-    justify-content: center;
-    margin: $spacing-l 0;
-}
-
-.preview-block {
-    margin: $spacing-l 0;
-}
-
-.preview-block .description {
-    max-height: 6 * $base-line-height;
-    overflow: hidden;
-    position: relative;
-
-    &:after {
-        content: "";
-        position: absolute;
-        height: 2 * $base-line-height;
-        bottom: 0;
-        right: 0;
-        left: 0;
-        background-image: linear-gradient(to bottom, transparent, #ffffff 100%);
-    }
-}
-
 .breadcrumbs {
     margin-bottom: $spacing-l;
 }
 
-.item-with-metadata .resource.show {
-    clear: both;
-    margin: (2 * $spacing-l) 0;
-    overflow: hidden;
+/* @end */
+
+/* @group ----- Search ----- */
+
+.results {
+  margin-bottom: 2 * $spacing-l;
+  clear: both;
 }
 
-.caption > *:first-child {
-    margin-top: $spacing-m;
+.results ul {
+  list-style: none;
+  padding-left: 0;  
 }
 
-.list-of-sites .site-list {
-    .site {
-        margin-bottom: $spacing-m;
-    }
+.results .result-title {
+  font-weight: bold;
+  display: block;
+}
 
-    .site-link {
-        display: inline-block;
-        font-size: 1.25 * $base-font-size;
-        margin-bottom: $spacing-s;
-    }
+.results .result-site,
+.results ul ul {
+  padding-left: $spacing-m;
+}
 
-    .site-summary {
-        margin: 0 0 0 $spacing-m;
-        line-height: 20px;
-    }
+.results > ul {
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.results > ul > li {
+  margin-bottom: $spacing-l;
+  width: calc(50% - #{$spacing-l});
+  
+  &:nth-child(2n) {
+    margin-left: $spacing-l;
+  }
+ }
+
+.pagination + .results {
+  margin: $spacing-l 0 0;
+  clear: both;
+}
+
+.sitewide-search-form ~ .results + .pagination {
+  margin-top: 0;
+}
+
+.sitewide-search-form ~ .advanced-search {
+  display: block;
+}
+
+.sitewide-search-form ~ h2 {
+  width: 50%;
+  float: left;
+}
+
+.sitewide-search-form ~ .pagination {
+  margin: (1.25 * $spacing-l) 0 $spacing-l;
+  text-align: right;
+  width: 50%;
+}
+
+.sitewide-search-form ~ p {
+  clear: both;
+}
+
+.index.search .results ul li {
+  margin-bottom: $spacing-s;
+  padding-bottom: $spacing-s;
+  border-bottom: 1px solid $gray;
+}
+
+.sitewide-search-form {
+  display: flex;
+  
+  input[type="submit"] {
+    margin: 0;
+  }
 }
 
 /* @end */
