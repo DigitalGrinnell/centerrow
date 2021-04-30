@@ -3,6 +3,7 @@ $escape = $this->plugin('escapeHtml');
 $this->htmlElement('body')->appendAttribute('class', 'item resource show');
 $this->headLink()->appendStylesheet($this->assetUrl('css/lightslider.min.css'));
 $this->headLink()->appendStylesheet($this->assetUrl('css/lightgallery.min.css'));
+$this->headScript()->appendFile($this->assetUrl('js/show.js'));
 $this->headScript()->appendFile($this->assetUrl('js/lightslider.min.js'));
 $this->headScript()->appendFile($this->assetUrl('js/lightgallery.min.js'));
 $this->headScript()->appendFile($this->assetUrl('js/lg-video.min.js'));
@@ -22,10 +23,11 @@ $lightMedia = [];
 $htmlMedia = [];
 $audioMedia = [];
 $otherMedia = [];
+$whitelist = ['image/bmp', 'image/gif', 'image/jpeg', 'image/png', 'image/svg+xml'];
 foreach ($item->media() as $media) {
     $mediaType = $media->mediaType();
     $mediaRenderer = $media->renderer();
-    if ((strpos($mediaType, 'image/') !== false) || (strpos($mediaRenderer, 'youtube') !== false)) {
+    if (in_array($mediaType, $whitelist) || (strpos($mediaRenderer, 'youtube') !== false)) {
         $lightMedia[] = $media;
     } else if (strpos($mediaRenderer, 'html') !== false) {
         $htmlMedia[] = $media;
@@ -188,8 +190,8 @@ echo "<h4>Design and Playing Features</h4>";
         <div class="value">
             <a href="<?php echo $media->siteUrl(); ?>"><?php echo $media->displayTitle(); ?></a>
         </div>
+        <?php endforeach; ?>
     </div>
-    <?php endforeach; ?>
 </div>
 <?php endif; ?>
 
@@ -218,3 +220,4 @@ $subjectValues = $item->displaySubjectValues($page, 25, $property);
 <?php endif; ?>
 
 <?php $this->trigger('view.show.after'); ?>
+</div>
