@@ -689,7 +689,7 @@ footer {
 
 .square .browse-thumbnail img {
 	max-height: 100%;
-	vertical-align: middle;
+	vertical-align: middle !important;
 }
 
 .browse .creator + .date {
@@ -783,10 +783,13 @@ footer {
 
 .left.large.file > .attachments > .item.resource {
 	width:100% !important;
+	margin: 0 18px 18px !important;
 }
 
 .left.square.file {
 	height:300px;
+	border:none;
+	clear:none;
 }
 
 .second-nav input {
