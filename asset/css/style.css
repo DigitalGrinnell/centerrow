@@ -1872,6 +1872,11 @@ footer {
   #search-results {
     margin-top: 12px;
   }
+  
+  .search-results {
+    float: right;
+    width: 75%;
+  }
 
   .index.search .results ul {
     columns: 1;
