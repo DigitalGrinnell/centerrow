@@ -1165,6 +1165,11 @@ nav ul {
     width: 500px;
   }
 
+  .search-results {
+    float: right;
+    width: 75%;
+  }
+  
   /*end added JMB*/
   /* @end */
   /* @group ----- Show ----- */
@@ -1871,11 +1876,6 @@ footer {
 
   #search-results {
     margin-top: 12px;
-  }
-  
-  .search-results {
-    float: right;
-    width: 75%;
   }
 
   .index.search .results ul {
