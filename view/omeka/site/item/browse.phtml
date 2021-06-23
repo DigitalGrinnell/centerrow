@@ -85,9 +85,12 @@ $sortHeadings = [
           </div>
         <?php endif; ?>
 	<div class="resource-meta">
+
 	<?php
-		echo "<h4>" . $item->linkRaw($heading) . "</h4>";
+		echo "<h4>" . $item->linkRaw($heading) . "</h4>"
+		<div class=\"date\">" . $escape($body) . "</div>";
 	?>
+
         </div>
     </li>
     <?php endforeach; ?>

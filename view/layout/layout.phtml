@@ -33,13 +33,14 @@ $userBar = $this->userBar();
     </head>
 
     <?php echo $this->htmlElement('body'); ?>
+        <a id="skipnav" href="#content"><?php echo $this->translate('Skip to main content'); ?></a>
         <?php echo $userBar; ?>
         <div id="wrap">
             <header>
                 <h1>
                     <a href="<?php echo $site->url(); ?>" class="site-title">
                     <?php if ($this->themeSetting('logo')): ?>
-                        <img src="<?php echo $this->themeSettingAssetUrl('logo'); ?>" alt="<?php echo $escape($siteTitle); ?>" />
+                        <img src="https://digital-grinnell.nyc3.digitaloceanspaces.com/omeka-s/digital-grinnell/asset/158b1d0621eeb5e9b9791b025eda8b6ea329fff5.png" alt="<?php echo $escape($siteTitle); ?>" />
                     <?php else: ?>
                         <?php echo $escape($siteTitle); ?>
                     <?php endif; ?>
