@@ -1061,6 +1061,7 @@ nav ul {
   .square .browse-thumbnail img {
     max-height: 100%;
     vertical-align: middle !important;
+	margin-bottom: 0!important;
   }
 
   .browse .creator + .date {
@@ -1129,6 +1130,10 @@ nav ul {
   .search-facets {
     margin-top: -19px;
   }
+  
+  #search-form-show-link {
+	display:none!important;
+  }
 
   .inputs input[type=text] {
     width: 100%;
@@ -1158,6 +1163,7 @@ nav ul {
     height: 300px;
     border: none;
     clear: none;
+	text-align: center;
   }
 
   .second-nav input {
