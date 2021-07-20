@@ -1166,6 +1166,10 @@ nav ul {
 	text-align: center;
   }
 
+  .slide-text {
+	  width: 180px !important;
+  }
+
   .second-nav input {
     height: 25px;
     width: 500px;
