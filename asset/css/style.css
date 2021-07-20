@@ -758,10 +758,10 @@ nav ul {
     text-decoration: none;
   }
 
-  /*.site-title img {
-      max-height: (3 * $spacing-l);
+  .site-title img {
+      /*max-height: (3 * $spacing-l);*/
       max-width: 100%;
-  }*/
+  }
   #header-image img {
     max-width: 100%;
     vertical-align: top;
@@ -1155,7 +1155,7 @@ nav ul {
   }
 
   .left.large.file > .attachments > .item.resource {
-    width: 100% !important;
+    width: 95% !important;
     margin: 0 18px 18px !important;
   }
 
