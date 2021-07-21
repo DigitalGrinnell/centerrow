@@ -1278,10 +1278,10 @@ nav ul {
 @media screen {
   .property h4,
 #linked-resources h4 {
-    width: span(3 of 16);
+    width: 20%;
     margin: 0;
     text-align: right;
-    padding: 0 gutter();
+    padding: 5px 0;
     font-size: 22.5px;
   }
 }
