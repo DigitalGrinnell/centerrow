@@ -1294,8 +1294,8 @@ nav ul {
 @media screen {
   .property .values,
 .property h4 + .value {
-    width: span(13 of 16);
-    padding: 0 gutter();
+    width: 80%;
+    padding: 0 20px;
   }
 }
 @media screen {
