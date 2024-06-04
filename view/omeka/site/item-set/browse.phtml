@@ -1,7 +1,12 @@
 <?php
 $translate = $this->plugin('translate');
 $escape = $this->plugin('escapeHtml');
+$thumbnail = $this->plugin('thumbnail');
+
 $this->headScript()->appendFile($this->assetUrl('js/browse.js'));
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $this->lang();
+$valueLang = $filterLocale ? [$lang, ''] : null;
 
 $this->htmlElement('body')->appendAttribute('class', 'item-set resource browse');
 ?>
@@ -11,10 +16,10 @@ $this->htmlElement('body')->appendAttribute('class', 'item-set resource browse')
 <?php echo $this->searchFilters(); ?>
 
 <?php 
-    $layoutSetting = $this->themeSetting('browse_layout');
+    $layoutSetting = $this->themeSetting('browse_layout', 'grid');
     $gridState = ($layoutSetting == 'togglegrid') ? 'disabled' : '';
     $listState = ($layoutSetting == 'togglelist') ? 'disabled': '';
-    $currentLayout = (!isset($layoutSetting) || strpos($layoutSetting, 'grid') !== false) ? 'grid' : 'list';
+    $currentLayout = (strpos($layoutSetting, 'grid') !== false) ? 'grid' : 'list';
 ?>
 <div class="browse-controls">
     <?php echo $this->pagination(); ?>
@@ -33,19 +38,17 @@ $this->htmlElement('body')->appendAttribute('class', 'item-set resource browse')
 $headingTerm = $this->siteSetting('browse_heading_property_term');
 $bodyTerm = $this->siteSetting('browse_body_property_term');
 foreach ($itemSets as $itemSet):
-    $heading = $headingTerm ? $itemSet->value($headingTerm, ['default' => $translate('[Untitled]')]) : $itemSet->displayTitle();
-    $body = $bodyTerm ? $itemSet->value($bodyTerm) : $itemSet->displayDescription();
+    $heading = $headingTerm ? $itemSet->value($headingTerm, ['default' => $translate('[Untitled]'), 'lang' => $valueLang]) : $itemSet->displayTitle(null, $valueLang);
+    $body = $bodyTerm ? $itemSet->value($bodyTerm, ['lang' => $valueLang]) : $itemSet->displayDescription(null, $valueLang);
+    $linkContent = sprintf('%s<span class="resource-name">%s</span>',
+        $thumbnail($itemSet, 'medium'),
+        $escape($heading));
 ?>
     <li class="item-set resource">
-        <?php if ($thumbnail = $this->thumbnail($itemSet, 'medium')): ?>
-        <?php echo $itemSet->linkRaw($thumbnail, null, ['class' => 'thumbnail']); ?>
+        <?php echo $itemSet->linkRaw($linkContent, null, ['class' => 'resource-link']); ?>
+        <?php if ($body): ?>
+        <div class="description"><?php echo $escape($body); ?></div>
         <?php endif; ?>
-        <div class="resource-meta">
-            <h4><?php echo $itemSet->link($heading); ?></h4>
-            <?php if ($body): ?>
-            <div class="description"><?php echo $escape($body); ?></div>
-            <?php endif; ?>
-        </div>
     </li>
 <?php endforeach; ?>
 </ul>

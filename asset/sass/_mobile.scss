@@ -68,7 +68,17 @@ header > h1,
 
 header nav .navigation {
     justify-content: center;
+    flex-wrap: wrap;
     margin: $spacing-m 0;
+}
+
+.sub-nav.first {
+    max-width: 100%;
+    margin: 0;
+}
+
+.first.open.sub-nav > ul > li > ul > li {
+    width: 100%;
 }
 
 #content > h2 {
@@ -131,10 +141,6 @@ footer {
     display: block;
     overflow: hidden;
     
-    .resource-meta:not(:only-child) {
-        width: 100%;
-    }
-    
     .thumbnail {
         width: 100%;
         margin: 0 0 $spacing-m 0;
@@ -150,14 +156,39 @@ footer {
 
 /* @group ----- Show ----- */
 
-.property h4,
-.property .values,
+.resource.show dt,
+.resource.show dt ~ dd, 
+.media-list dt ~ .resource-link,
 #linked-filter,
 #linked-resources .pagination,
-#linked-resources > h4,
+#linked-resources > dt,
 #linked-resources .linked-resource {
     width: 100%;
     text-align: left;
+}
+
+.resource.show .property > dt,
+.resource.show dt  ~ dd.value { 
+    padding: 0;
+}
+
+.resource.show dl dt, 
+.resource.show dt ~ dd, 
+.media-list dt ~ .resource-link,
+.resource.show .collapsible .property {
+    padding-left: $spacing-m;
+}
+
+.resource.show .collapsible .property:not(:last-child) {
+    margin-bottom: $spacing-m;
+}
+
+.resource.show .property > dt { 
+    margin-bottom: $spacing-s;
+}
+
+.resource.show .property dl dt { 
+    margin-bottom: 0;
 }
 
 .linked-header,
@@ -179,6 +210,19 @@ footer {
     flex: 2;
 }
 
+.media-embeds * {
+    max-width: 100%;
+    height: auto;
+}
+
+.media-embeds .file {
+    margin-bottom: $spacing-l;
+}
+
+.property .value:not(:last-child) .resource-link {
+    margin-bottom: 0;
+}
+
 /* @end */
 
 /* @group ----- Search ----- */
@@ -196,4 +240,27 @@ footer {
   columns: 1;
 }
 
+.field .inputs {
+    padding-left: 0;
+}
+
+.field .inputs ~ *, 
+form input[type="submit"] {
+    margin-left: 0;
+}
+
+/* @end */
+
+/* @group ----- Pages ----- */
+
+.page #content .sub-menu, 
+.page #content .sub-menu ~ *:not(.site-page-pagination) {
+    position: static;
+    width: 100%;
+    padding: 0;
+}
+
+#content .blocks h2:first-child {
+    margin-top: 0
+}
 /* @end */

@@ -11,8 +11,14 @@ $this->headLink()->prependStylesheet('//fonts.googleapis.com/css?family=Crimson+
 $this->headLink()->prependStylesheet($this->assetUrl('css/iconfonts.css', 'Omeka'));
 $this->headLink()->appendStylesheet($this->assetUrl('css/style.css'));
 $this->headScript()->prependFile($this->assetUrl('js/centerrow.js'));
+$this->headScript()->prependFile($this->assetUrl('js/jquery-accessibleMegaMenu.js'));
 $this->headScript()->prependFile($this->assetUrl('js/global.js', 'Omeka'));
 $this->headScript()->prependFile($this->assetUrl('vendor/jquery/jquery.min.js', 'Omeka'));
+$this->jsTranslate();
+$banner = $this->themeSettingAssetUrl('banner');
+$bannerHeight = $this->themeSetting('banner_height');
+$bannerHeightMobile = $this->themeSetting('banner_height_mobile');
+$bannerPosition = ($this->themeSetting('banner_position')) ? str_replace('_','-', $this->themeSetting('banner_position')) : 'center';
 $this->trigger('view.layout');
 $userBar = $this->userBar();
 ?>
@@ -30,6 +36,19 @@ $userBar = $this->userBar();
            console.log('Gridified!');
           }
         </script>
+        <style>
+            .banner {
+                height: <?php echo ($bannerHeight !== '') ? $bannerHeight: 'auto'  ?>;
+                align-items: <?php echo $bannerPosition; ?>;
+            }
+        <?php if ($bannerHeightMobile !== ''): ?>
+            @media screen and (max-width:640px) {
+                .banner {
+                    height: <?php echo $bannerHeightMobile; ?>;
+                }
+            }
+        <?php endif; ?>
+        </style>
     </head>
 
     <?php echo $this->htmlElement('body'); ?>
@@ -46,27 +65,22 @@ $userBar = $this->userBar();
                     <?php endif; ?>
                     </a>
                 </h1>
-                <nav>
-                <?php
-                echo $site->publicNav()->menu()->renderMenu(null, [
-                    'maxDepth' => $this->themeSetting('nav_depth') - 1
-                ]);
-                ?>
-                </nav>
+                <div id="search-container">
+                    <?php echo $this->partial('common/search-form'); ?>
+                    <button type="button" class="search-toggle" title="Toggle search"></button>
+                </div>
+                <?php echo $site->publicNav()->menu()->setPartial('common/accessible-mega-menu.phtml')->renderPartial(); ?>
+
+                <?php if ($banner): ?>
+                <div class="banner">
+                    <img src="<?php echo $this->themeSettingAssetUrl('banner'); ?>" title="Banner">
+                </div>
+		<?php endif; ?>
+
     <div class="second-nav">            
         <ul class="navigation">
             <li><a href="https://www.grinnell.edu">Grinnell College</a></li>
             <li><a href="https://www.grinnell.edu/academics/majors-concentrations/music">Music at Grinnell</a></li>
-    <form method="GET" action="&#x2F;s&#x2F;MusicalInstruments&#x2F;musical-instrument-search">
-        <li>
-        <label for="q">Search</label>
-        <input type="text" name="q" placeholder="Search&#x20;items" value="">
-    </li>
-		<input type="hidden" name="limit[resource_class_s][0]" value="wmi:MusicalInstrument">
-        </ul>
-    </form>
-    </div>
-            </header>
 
             <div id="content" role="main">
                 <?php echo $this->content; ?>
@@ -102,5 +116,11 @@ $userBar = $this->userBar();
                 <?php endif; ?>
             </footer>
         </div>
+        <script type="text/javascript">
+        jQuery(document).ready(function () {
+            CenterRow.mobileMenu();
+            CenterRow.megaMenu();
+        });
+        </script>
     </body>
 </html>

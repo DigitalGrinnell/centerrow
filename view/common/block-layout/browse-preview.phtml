@@ -1,16 +1,18 @@
 <?php
 $this->headScript()->appendFile($this->assetUrl('js/browse.js'));
 $translate = $this->plugin('translate');
-$escape = $this->plugin('escape');
-$layoutSetting = $this->themeSetting('browse_layout');
+$escape = $this->plugin('escapeHtml');
+$layoutSetting = $this->themeSetting('browse_layout', 'grid');
 $gridState = ($layoutSetting == 'togglegrid') ? 'disabled' : '';
 $listState = ($layoutSetting == 'togglelist') ? 'disabled': '';
-$currentLayout = (!isset($layoutSetting) || strpos($layoutSetting, 'grid') !== false) ? 'grid' : 'list';
+$currentLayout = (strpos($layoutSetting, 'grid') !== false) ? 'grid' : 'list';
+$resources = $this->resources;
+$resourceCount = count($resources);
 ?>
-<div class="preview-block">
+<div class="preview-block browse">
 
 <?php if ($this->heading): ?>
-<h2><?php echo $this->heading; ?></h2>
+<h2><?php echo $escape($this->heading); ?></h2>
 <?php endif; ?>
 
 <?php if (strpos($layoutSetting, 'toggle') !== false): ?>
@@ -23,31 +25,38 @@ $currentLayout = (!isset($layoutSetting) || strpos($layoutSetting, 'grid') !== f
 <?php endif; ?>
 
 
-<ul class="resource-list preview <?php echo $currentLayout; ?>">
+<ul class="resource-list preview <?php echo $currentLayout; ?> resource-count-<?php echo $resourceCount; ?>">
 <?php
 $showThumbnail = in_array('thumbnail', $this->components);
 $showHeading = in_array('resource-heading', $this->components);
 $showBody = in_array('resource-body', $this->components);
 $headingTerm = $this->siteSetting('browse_heading_property_term');
 $bodyTerm = $this->siteSetting('browse_body_property_term');
-foreach ($this->resources as $resource):
-    $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]')]) : $resource->displayTitle();
-    $body = $bodyTerm ? $resource->value($bodyTerm) : $resource->displayDescription();
+
+$filterLocale = (bool) $this->siteSetting('filter_locale_values');
+$lang = $this->lang();
+$valueLang = $filterLocale ? [$lang, ''] : null;
+
+foreach ($resources as $resource):
+    $heading = $headingTerm ? $resource->value($headingTerm, ['default' => $translate('[Untitled]'), 'lang' => $valueLang]) : $resource->displayTitle(null, $valueLang);
+    $body = $bodyTerm ? $resource->value($bodyTerm, ['lang' => $valueLang]) : $resource->displayDescription(null, $valueLang);
 ?>
     <li class="<?php echo $this->resourceType; ?> resource">
         <?php
+        $linkContent = '';
         if ($showThumbnail):
-            echo $resource->linkRaw($this->thumbnail($resource, 'medium', ['class' => 'thumbnail']));
-        endif;?>
-        <div class="resource-meta">
-            <?php
-            if ($showHeading):
-                echo '<h4>' . $resource->link($heading) . '</h4>';
-            endif; ?>
-            <?php if ($showBody && $body): ?>
-            <div class="description"><?php echo $body; ?></div>
-            <?php endif; ?>
-        </div>
+            $linkContent .= $this->thumbnail($resource, 'medium', ['title' => $heading, 'class' => 'thumbnail']);
+        endif;
+        if ($showHeading):
+            $linkContent .= '<span class="resource-name">' . $escape($heading) . '</span>';
+        endif;
+        if ($linkContent !== ''):
+            echo $resource->linkRaw($linkContent, null, ['class' => 'resource-link']);
+        endif;
+        if ($showBody && $body):
+            echo '<div class="description">' . $escape($body) . '</div>';
+        endif;
+        ?>
     </li>
 <?php endforeach; ?>
 </ul>
