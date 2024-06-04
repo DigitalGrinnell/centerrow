@@ -82,6 +82,15 @@ $userBar = $this->userBar();
             <li><a href="https://www.grinnell.edu">Grinnell College</a></li>
             <li><a href="https://www.grinnell.edu/academics/majors-concentrations/music">Music at Grinnell</a></li>
 
+    <form method="GET" action="&#x2F;s&#x2F;MusicalInstruments&#x2F;musical-instrument-search">
+        <li>
+        <label for="q">Search</label>
+        <input type="text" name="q" placeholder="Search&#x20;items" value="">
+	<input type="hidden" name="limit[resource_class_s][0]" value="wmi:MusicalInstrument">
+        </li>
+            </form>
+	</ul>
+    </div>
             <div id="content" role="main">
                 <?php echo $this->content; ?>
             </div>
